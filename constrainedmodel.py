@@ -86,6 +86,12 @@ class ConstrainedLinearModel(object):
         if self._result is None:
             self.__compute()
         return self._tvalues
+
+    @property
+    def fcov(self):
+        if self._result is None:
+            self.__compute()
+        return self._fcov
     
     @property
     def rsquared(self):
@@ -98,9 +104,3 @@ class ConstrainedLinearModel(object):
         if self._result is None:
             self.__compute()
         return self._result.rsquared_adj
-
-    @property
-    def fcov(self):
-        if self._result is None:
-            self.__compute()
-        return self._fcov

@@ -173,7 +173,6 @@ frame = pd.concat([df_fr, df_stats], axis = 1)
 
 # return (frame, rsquared, resid)
 
-
 for d0,d1 in itertools.izip(date[:-1], date[1:]):
     print d0, d1
     df0 = pd.DataFrame.from_csv ('data' + str (d0) + '.csv')

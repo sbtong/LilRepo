@@ -70,7 +70,7 @@ def get_regression_data():
     for ig in IndGrps:
         column = 'B_%s' % ig
         df[column] = df['IndustryGroup'].mask(df.IndustryGroup == ig, 1.)
-    # size factor
+    # Size factor
     df.SumAmtOutstanding = np.log(df.SumAmtOutstanding)
     df['B_SIZE'] = df['SumAmtOutstanding']
 
@@ -196,6 +196,52 @@ def main(name = 'B_MKT', tstart = 0, tend = 1000):
     axes[1, 0].set_title('Absolute t-value Histogram')
     #rsquare
     rsquared.plot(ax = axes[1,1], title = 'RSquared')
+
+
+# plot
+date1 = RegressionData.TradeDate.unique()
+fr = []
+tstats = []
+rsquared = []
+date = date1[0:1000]
+for d0,d1 in itertools.izip(date[:-1], date[1:]):
+    # print 'date', d1
+    (fr_COLS, t_COLS, rsquared_COLS) = compute_FactorReturns(d0, d1, RegressionData)
+    fr.append (fr_COLS)
+    tstats.append (t_COLS)
+    rsquared.append (rsquared_COLS)
+fr = pd.DataFrame (fr)
+tstats = pd.DataFrame(tstats)
+rsquared = pd.Series (rsquared)
+
+d = date[1:]
+fr = fr.set_index(d)
+tstats = tstats.set_index(d)
+rsquared.index = d
+
+rollingr = rsquared.rolling(window=30,center=False).mean()
+ts = rollingr.dropna()
+ts.plot(title = 'Rolling Average Rsquared')
+t = tstats.abs()
+mean_t = t.mean()
+mean_t.plot(kind = 'bar', title = 'Average t stat for Each Factor')
+
+
+
+name = 'B_MEDIA'
+# factor return plot
+df_chart_fr = fr[name] + 1
+ts1 = df_chart_fr.cumprod()
+# tvalue plot
+ts2 = tstats[name].abs()
+
+#plot
+fig, axes = plt.subplots(nrows=1, ncols=2)
+# factor return
+ts1.plot(ax=axes[0], title = name + ' Factor Return History')
+#abs(t) histogram
+ts2.hist(ax = axes[1])
+axes[1].set_title('Absolute t-value Histogram')
 
 if __name__ == '__main__':
     main()
