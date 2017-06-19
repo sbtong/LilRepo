@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<meta charset="utf-8">
+<head>
+    {% block head %}
+    <title>{% block title %}{% endblock %} </title>
+    {% endblock %}
+    <style>
+
+body { 
+  -webkit-text-size-adjust: none; 
+}
+
+.node, .clickable {
+  cursor: pointer;
+}
+
+.node circle {
+  position:relative;
+  stroke: steelblue;
+  stroke-width: 3.5px;
+}
+
+.node text {
+  font: 10px sans-serif;
+}
+
+.link {
+  fill: none;
+  stroke: #ccc;
+  stroke-width: 1.5px;
+}
+
+div.tooltip {
+    display: inline-block;
+    position: relative;
+    text-align: center;
+    padding: 8px;
+    font: 10px sans-serif;
+    background: #ffff99;
+    border: solid 1px #aaa;
+    border-radius: 8px;
+    pointer-events: none;
+}
+
+	</style>
+</head>
+<body>
+	{% block style %}
+	<script src="http://code.jquery.com/jquery-1.10.2.min.js"></script>
+	<script src="http://d3js.org/d3.v3.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/chroma-js/1.2.2/chroma.min.js"></script>
+	{% endblock %}
+    <div id="content">{% block content %}{% endblock %}</div>
+    <div id="footer">
+        {% block footer %}
+        {% endblock %}
+    </div>
+</body>
+</html>

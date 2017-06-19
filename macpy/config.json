@@ -1,0 +1,11 @@
+{
+
+    "connect" : {
+        "url" : "http://oberon/prod/dataderiv/Integration/Integration.svc",
+        "user" : "wgajate",
+        "password" : "abc123"
+    },
+    "store" : {
+        "base" : "./riskStore"
+    }
+}
